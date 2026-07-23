@@ -1,0 +1,29 @@
+services:
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr:latest
+    container_name: recyclarr
+
+    user: "1000:1000"
+
+    environment:
+      - TZ=Europe/London
+
+    volumes:
+      - ./config:/config
+
+    command: sync
+
+    restart: "no"
+
+    networks:
+      - media
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  media:
+    external: true
