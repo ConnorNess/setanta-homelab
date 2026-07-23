@@ -1,0 +1,13 @@
+services:
+  komga:
+    image: gotson/komga:latest
+    container_name: komga
+
+    ports:
+      - "25600:25600"
+
+    volumes:
+      - ./config:/config
+      - ${MEDIA_PATH}:/books:ro
+
+    restart: unless-stopped
