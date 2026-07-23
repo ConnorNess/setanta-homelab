@@ -1,0 +1,37 @@
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+
+    volumes:
+      - ./config:/config
+      - ${MEDIA_PATH}:/data
+
+    ports:
+      - "6767:6767"
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6767"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    networks:
+      - media
+
+networks:
+  media:
+    external: true
