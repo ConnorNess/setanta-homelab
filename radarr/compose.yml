@@ -1,0 +1,31 @@
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+
+    volumes:
+      - ./config:/config
+      - ${MEDIA_PATH}:/data
+
+    ports:
+      - "7878:7878"
+
+    restart: unless-stopped
+
+    networks:
+      - media
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  media:
+    external: true
