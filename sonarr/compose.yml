@@ -1,0 +1,31 @@
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+
+    volumes:
+      - ./config:/config
+      - ${MEDIA_PATH}:/data
+
+    ports:
+      - "8989:8989"
+
+    restart: unless-stopped
+
+    networks:
+      - media
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  media:
+    external: true
