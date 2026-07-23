@@ -1,0 +1,24 @@
+services:
+  tautulli:
+    image: ghcr.io/tautulli/tautulli:latest
+    container_name: tautulli
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+
+    volumes:
+      - ./config:/config
+
+    ports:
+      - "8181:8181"
+
+    restart: unless-stopped
+
+    networks:
+      - media
+
+networks:
+  media:
+    external: true
